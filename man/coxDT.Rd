@@ -2,12 +2,27 @@
 % Please edit documentation in R/coxDT.R
 \name{coxDT}
 \alias{coxDT}
-\title{Fit Cox Proportional Hazards Regression Model Under Double Truncation}
+\title{Fit Cox Proportional Hazards Regression Model Under Independent Double Truncation}
 \usage{
-coxDT(formula, L, R, data, subset, time.var = FALSE, subject = NULL,
-  B.SE.np = 200, CI.boot = FALSE, B.CI.boot = 2000, pvalue.boot = FALSE,
-  B.pvalue.boot = 500, B.pvalue.se.boot = 100, trunc.weight = 100,
-  print.weights = FALSE, error = 10^-6, n.iter = 1000)
+coxDT(
+  formula,
+  L,
+  R,
+  data,
+  subset,
+  time.var = FALSE,
+  subject = NULL,
+  B.SE.np = 200,
+  CI.boot = FALSE,
+  B.CI.boot = 2000,
+  pvalue.boot = FALSE,
+  B.pvalue.boot = 500,
+  B.pvalue.se.boot = 100,
+  trunc.weight = 100,
+  print.weights = FALSE,
+  error = 10^-6,
+  n.iter = 1000
+)
 }
 \arguments{
 \item{formula}{a formula object, with the response on the left of a ~ operator, and the terms on the right. The response must be a survival object as returned by the \code{Surv} function. NOTE: \code{coxDT} does not handle censoring.}
@@ -52,7 +67,7 @@ Wald test statistic and corresponding p-value for each regression coefficient}
 \item{weights}{If print.weights=TRUE, displays the weights used in the Cox model}
 }
 \description{
-Fits a Cox proportional hazards regression model when the survival time is subject to both left and right truncation. Assumes that no censoring is present in the data.
+Fits a Cox proportional hazards regression model when the survival time is subject to both left and right truncation. Assumes that the truncation times are independent of survival times, and no censoring is present in the data.
 }
 \details{
 Fits a Cox proportional hazards model in the presence of left and right truncation
@@ -66,7 +81,7 @@ If only right truncation is present, set L = -infinity.
 }
 \examples{
 ###### Example: AIDS data set #####
-coxDT(Surv(Induction.time,status)~Adult,L.time,R.time,data=AIDS,B.SE.np=2)
+coxDT(Surv(Induction.time)~Adult,L.time,R.time,data=AIDS,B.SE.np=2)
 
 # WARNING: To save computation time, number of bootstrap resamples for standard error set to 2.
 # Note: The minimum recommendation is 200, which is the default setting.
@@ -110,5 +125,5 @@ list(subject.id = c(1, 2, 2, 3, 4, 4, 5, 6, 7, 8, 8, 9, 10),
  time.var=TRUE,subject=subject.id,B.SE.np=2)
 }
 \references{
-Rennert L and Xie SX (2017). Cox regression model with doubly truncated data. Biometrics. http://dx.doi.org/10.1111/biom.12809.
+Rennert L and Xie SX (2018). Cox regression model with doubly truncated data. Biometrics, 74(2), 725-733. http://dx.doi.org/10.1111/biom.12809.
 }

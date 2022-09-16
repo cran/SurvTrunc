@@ -1,6 +1,6 @@
-#'Fit Cox Proportional Hazards Regression Model Under Double Truncation
+#'Fit Cox Proportional Hazards Regression Model Under Independent Double Truncation
 #'
-#'Fits a Cox proportional hazards regression model when the survival time is subject to both left and right truncation. Assumes that no censoring is present in the data.
+#'Fits a Cox proportional hazards regression model when the survival time is subject to both left and right truncation. Assumes that the truncation times are independent of survival times, and no censoring is present in the data.
 #'@importFrom survival coxph Surv
 #'@importFrom stats model.frame model.matrix model.response na.omit pnorm quantile sd
 #'@param formula a formula object, with the response on the left of a ~ operator, and the terms on the right. The response must be a survival object as returned by the \code{Surv} function. NOTE: \code{coxDT} does not handle censoring.
@@ -35,11 +35,11 @@
 #'\item{CI}{Method used for computation of confidence interval: Normal approximation (default) or bootstrap}
 #'\item{p.value}{Method used for computation of p-values: Normal approximation (default) or bootstrap}
 #'\item{weights}{If print.weights=TRUE, displays the weights used in the Cox model}
-#'@references Rennert L and Xie SX (2017). Cox regression model with doubly truncated data. Biometrics. http://dx.doi.org/10.1111/biom.12809.
+#'@references Rennert L and Xie SX (2018). Cox regression model with doubly truncated data. Biometrics, 74(2), 725-733. http://dx.doi.org/10.1111/biom.12809.
 #'@export
 #'@examples
 #'###### Example: AIDS data set #####
-#'coxDT(Surv(Induction.time,status)~Adult,L.time,R.time,data=AIDS,B.SE.np=2)
+#'coxDT(Surv(Induction.time)~Adult,L.time,R.time,data=AIDS,B.SE.np=2)
 #'
 #'# WARNING: To save computation time, number of bootstrap resamples for standard error set to 2.
 #'# Note: The minimum recommendation is 200, which is the default setting.
@@ -105,6 +105,11 @@ coxDT = function(formula,L,R,data,subset,time.var=FALSE,subject=NULL,B.SE.np=200
   X=model.matrix(attr(mf,"terms"),data=mf)[,-1]
   p=1; n=length(X);
   if(length(dim(X))>0) {p=dim(X)[2]; n=dim(X)[1]}  # number of predictors and observations
+
+  Y<-model.response(mf)
+  if(length(dim(Y))>0){
+    if(any(Y[,2]==0)) stop("Censored observations can not be handled by this method!")
+  }
 
   Y=as.numeric(model.response(mf))[1:n];
 

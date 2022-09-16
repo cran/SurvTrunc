@@ -4,9 +4,19 @@
 \alias{cdfDT}
 \title{Distribution function estimation under double truncation}
 \usage{
-cdfDT(y, l, r, error = 1e-06, n.iter = 10000, boot = FALSE,
-  B.boot = 200, joint = FALSE, plot.cdf = FALSE, plot.joint = FALSE,
-  display = TRUE)
+cdfDT(
+  y,
+  l,
+  r,
+  error = 1e-06,
+  n.iter = 10000,
+  boot = FALSE,
+  B.boot = 200,
+  joint = FALSE,
+  plot.cdf = FALSE,
+  plot.joint = FALSE,
+  display = TRUE
+)
 }
 \arguments{
 \item{y}{vector of event times}

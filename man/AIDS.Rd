@@ -4,7 +4,8 @@
 \name{AIDS}
 \alias{AIDS}
 \title{AIDS blood transfusion data}
-\format{This data frame contains the following columns:
+\format{
+This data frame contains the following columns:
 \describe{
 \item{Induction.time}{Months between HIV infection and development of AIDS (event time of interest)}
 \item{Adult}{Indicator of adult (1=adult,0=child)}
@@ -12,7 +13,8 @@
 \item{L.time}{Left truncation time: 45 - infection time}
 \item{R.time}{Right truncation time: Left truncation time + 54 months}
 \item{status}{Indicator of event occurrence, which is set to 1 since all subjects experience the event}
-}}
+}
+}
 \source{
 Klein and Moeschberger (1997) Survival Analysis Techniques for Censored and truncated data, Springer.
 
